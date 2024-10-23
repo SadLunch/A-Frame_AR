@@ -9,20 +9,20 @@ window.onload = () => {
             // and east (red) of the initial GPS position
             const properties = [{
                     color: 'red', // North
-                    latDis: 0.0000001,
+                    latDis: 0.00001,
                     lonDis: 0
                 },{
                     color: 'yellow', // South
-                    latDis: -0.0000001,
+                    latDis: -0.00001,
                     lonDis: 0
                 },{
                     color: 'blue', // West
                     latDis: 0,
-                    lonDis: -0.000001
+                    lonDis: -0.00001
                 },{
                     color: 'green', // East
                     latDis: 0,
-                    lonDis: 0.000001
+                    lonDis: 0.00001
                 }
             ];
             for(const prop of properties) {
