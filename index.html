@@ -4,11 +4,11 @@
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src='index.js'></script>
 </head>
 
 <body>
     <script>
-        var lat, lng;
         AFRAME.registerComponent('scale-on-mouseenter', {
             schema: {
                 to: { default: '2.5 2.5 2.5', type: 'vec3' }
@@ -22,15 +22,8 @@
                 });
             }
         });
-        window.onload = () => {
-            navigator.geolocation.getCurrentPosition((position) => {
-                lat = position.coords.latitude;
-                lng = position.coords.longitude;
-                document.querySelector(a-box).setAttribute('gps-new-entity-place', `latitude: ${lat}; longitude: ${lng}`);
-            }, null, {enableHighAccuracy: true})
-        }
     </script>
-    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;">
+    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;" renderer='antialias: true; alpha: true'>
         <a-assets>
             <img id="boxTexture" src="https://i.imgur.com/mYmmbrp.jpg">
             <a-sound src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav" autoplay="true"
@@ -42,7 +35,7 @@
             animation__mouseenter="property: scale; to: 2.3 2.3 2.3; dur: 300; startEvents: mouseenter"
             animation__mouseleave="property: scale; to: 2 2 2; dur: 300; startEvents: mouseleave"></a-box>
 
-        <a-camera id='camera1' look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 0.1' gps-new-camera='gpsMinDistance: 5' setObjectOrigin>
+        <a-camera look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor:0.1' gps-new-camera='gpsMinDistance: 5'>
             <a-cursor></a-cursor>
         </a-camera>
     </a-scene>
