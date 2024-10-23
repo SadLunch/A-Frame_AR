@@ -1,7 +1,8 @@
 <html>
 
 <head>
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 
 <body>
@@ -20,38 +21,32 @@
             }
         });
 
-        AFRAME.registerComponent('rotation-reader', {
-            /**
-             * We use IIFE (immediately-invoked function expression) to only allocate one
-             * vector or euler and not re-create on every tick to save memory.
-             */
-            tick: (function () {
-                var position = new THREE.Vector3();
-                var quaternion = new THREE.Quaternion();
-
-                return function () {
-                    this.el.object3D.getWorldPosition(position);
-                    this.el.object3D.getWorldQuaternion(quaternion);
-                    // position and rotation now contain vector and quaternion in world space.
-                };
-            })()
-        });
+        AFRAME.registerComponent('setObjectOrigin', {
+            init: function () {
+                this.el.sceneEl.addEventListener('gps-camera-update-position', (gps) => {
+                    var lat = gps.details.origin.latitude;
+                    var lng = gps.details.origin.longitude;
+                    var box = document.querySelector('a-box');
+                    box.setAttribute('gps-new-entity-place', `latitude: ${lat}; longitude: ${lng}`)
+                })
+            }
+        })
     </script>
-    <a-scene xr-mode-ui="XRMode: ar">
+    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;">
         <a-assets>
             <img id="boxTexture" src="https://i.imgur.com/mYmmbrp.jpg">
             <a-sound src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav" autoplay="true"
                 position="-3 1 -4"></a-sound>
         </a-assets>
 
-        <a-box src="#boxTexture" position="0 2 -5" rotation="0 45 45" scale="2 2 2"
+        <a-box gps-new-entity-place src="#boxTexture" position="0 2 -5" rotation="0 45 45" scale="2 2 2"
             animation__position="property: object3D.position.y; to: 2.2; dir: alternate; dur: 2000; loop: true"
             animation__mouseenter="property: scale; to: 2.3 2.3 2.3; dur: 300; startEvents: mouseenter"
             animation__mouseleave="property: scale; to: 2 2 2; dur: 300; startEvents: mouseleave"></a-box>
 
-        <a-entity camera look-controls rotation-reader>
+        <a-camera id='camera1' look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 0.1' gps-new-camera='gpsMinDistance: 5' setObjectOrigin>
             <a-cursor></a-cursor>
-        </a-entity>
+        </a-camera>
     </a-scene>
 </body>
 
