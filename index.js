@@ -8,19 +8,19 @@ window.onload = () => {
             // Add four boxes to the north (red), south (yellow), west (blue)
             // and east (red) of the initial GPS position
             const properties = [{
-                    color: 'red',
+                    color: 'red', // North
                     latDis: 0.001,
                     lonDis: 0
                 },{
-                    color: 'yellow',
+                    color: 'yellow', // South
                     latDis: -0.001,
                     lonDis: 0
                 },{
-                    color: 'blue',
+                    color: 'blue', // West
                     latDis: 0,
                     lonDis: -0.001
                 },{
-                    color: 'green',
+                    color: 'green', // East
                     latDis: 0,
                     lonDis: 0.001
                 }
@@ -28,11 +28,15 @@ window.onload = () => {
             for(const prop of properties) {
                 const entity = document.createElement("a-box");
                 entity.setAttribute("scale", {
-                    x: 20, 
-                    y: 20,
-                    z: 20
+                    x: 2, 
+                    y: 2,
+                    z: 2
                 });
                 entity.setAttribute('material', { color: prop.color } );
+                entity.setAttribute('rotation', {x: 0, y: 45, z: 45});
+                entity.setAttribute('animation__position', "property: object3D.position.y; to: 2.2; dir: alternate; dur: 2000; loop: true");
+                entity.setAttribute('animation__mouseenter', "property: scale; to: 2.3 2.3 2.3; dur: 300; startEvents: mouseenter");
+                entity.setAttribute('animation__mouseleave', "property: scale; to: 2 2 2; dur: 300; startEvents: mouseleave")
                 entity.setAttribute('gps-new-entity-place', {
                     latitude: e.detail.position.latitude + prop.latDis,
                     longitude: e.detail.position.longitude + prop.lonDis
