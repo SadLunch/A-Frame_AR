@@ -5,10 +5,10 @@ const arObjects = []; // Array to store dynamically created AR objects with new 
 
 // Array to define distances and bearings for each AR object from the initial location
 const objectDistances = [
-  { distance: 100, bearing: 0 },   // 100 meters north
-  { distance: 200, bearing: 90 },  // 200 meters east
-  { distance: 150, bearing: 180 }, // 150 meters south
-  { distance: 300, bearing: 270 }  // 300 meters west
+  { distance: 1, bearing: 0 },   // 100 meters north
+  { distance: 1, bearing: 90 },  // 200 meters east
+  { distance: 1, bearing: 180 }, // 150 meters south
+  { distance: 1, bearing: 270 }  // 300 meters west
 ];
 
 // Geolocation API to get the user's initial GPS location
